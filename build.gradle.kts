@@ -224,6 +224,8 @@ dependencies {
     // Enable native file watch only on dev mode.
     devOnly(enforcedPlatform(Deps.micronautBom))
     devOnly("io.micronaut:micronaut-runtime-osx")
+    devOnly("net.java.dev.jna:jna")
+    devOnly("io.methvin:directory-watcher")
 }
 
 publishing {

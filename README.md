@@ -1,8 +1,8 @@
 ### [Micronaut](https://micronaut.io/index.html) Data JDBC Sample App
 
  * Build & Run
- ```bash
- $ ./gradlew run
+ ```bash        
+ $ ./gradlew run --continuous
  ```
  * Run Tests
  ```bash
