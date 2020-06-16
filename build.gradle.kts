@@ -214,18 +214,20 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation("io.micronaut:micronaut-inject")
     implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("io.micronaut:micronaut-runtime")
     implementation("javax.annotation:javax.annotation-api")
     implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.micronaut:micronaut-http-client")
-    //implementation("io.micronaut.configuration:micronaut-flyway")
-    //implementation("io.micronaut.configuration:micronaut-jdbc-hikari")
+    implementation("io.micronaut.flyway:micronaut-flyway")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.data:micronaut-data-jdbc")
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
 
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("com.h2database:h2")
+
 
     kaptTest(platform(Deps.micronautBom))
     kaptTest("io.micronaut:micronaut-inject-java")
