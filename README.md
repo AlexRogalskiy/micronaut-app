@@ -11,5 +11,5 @@
  * Build Executable Jar
  ```bash
  $ ./gradlew assemble 
- $  java -jar build/libs/micronaut-app-0.0.1-all.jar 
+ $  java -jar build/libs/micronaut-app-0.1.0-all.jar  
  ```

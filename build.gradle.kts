@@ -32,10 +32,6 @@ java {
     targetCompatibility = jdkVersion
 }
 
-allOpen {
-    annotation("io.micronaut.aop.Around")
-}
-
 gitProperties {
     gitPropertiesDir = "${project.buildDir}/resources/main/META-INF/${project.name}"
     customProperties["kotlin"] = Versions.kotlin
@@ -51,8 +47,22 @@ jib {
     }
 }
 
+allOpen {
+    annotation("io.micronaut.aop.Around")
+}
+
+kapt {
+    arguments {
+        arg("micronaut.processing.incremental", true)
+        arg("micronaut.processing.annotations", "dev.suresh.*")
+        arg("micronaut.processing.group", "dev.suresh")
+        arg("micronaut.processing.module", "micronautApp")
+    }
+}
+
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 // For dependencies that are needed for development only,
@@ -123,13 +133,17 @@ tasks {
 
     // Configure Gradle Run.
     named<JavaExec>("run") {
-        doFirst {
+        classpath += devOnly
+        jvmArgs = listOf(
+            "-XX:TieredStopAtLevel=1",
+            "-Dcom.sun.management.jmxremote"
+        )
+        if (gradle.startParameter.isContinuous) {
             println("Enabling Micronaut Watch!")
-            classpath += devOnly
-            jvmArgs = listOf(
-                "-XX:TieredStopAtLevel=1",
-                "-Dcom.sun.management.jmxremote",
-                "-Dmicronaut.io.watch.enabled=true"
+            systemProperties(
+                "micronaut.io.watch.restart" to "true",
+                "micronaut.io.watch.enabled" to "true",
+                "micronaut.io.watch.paths" to "src/main"
             )
         }
     }
@@ -185,17 +199,17 @@ tasks {
 dependencies {
 
     // Micronaut annotation processors
-    kapt(enforcedPlatform(Deps.micronautBom))
+    kapt(platform(Deps.micronautBom))
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
     kapt("io.micronaut:micronaut-graal")
     kapt("io.micronaut.data:micronaut-data-processor")
 
-    compileOnly(enforcedPlatform(Deps.micronautBom))
+    compileOnly(platform(Deps.micronautBom))
     compileOnly("org.graalvm.nativeimage:svm")
 
     implementation(enforcedPlatform(Deps.kotlinBom))
-    implementation(enforcedPlatform(Deps.micronautBom))
+    implementation(platform(Deps.micronautBom))
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
     implementation("io.micronaut:micronaut-inject")
@@ -204,25 +218,25 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api")
     implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut.configuration:micronaut-flyway")
-    implementation("io.micronaut.configuration:micronaut-jdbc-hikari")
+    //implementation("io.micronaut.configuration:micronaut-flyway")
+    //implementation("io.micronaut.configuration:micronaut-jdbc-hikari")
     implementation("io.micronaut.data:micronaut-data-jdbc")
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
 
-    runtimeOnly("ch.qos.logback:logback-classic:1.2.3")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin:2.11.0")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
     runtimeOnly("com.h2database:h2")
 
-    kaptTest(enforcedPlatform(Deps.micronautBom))
+    kaptTest(platform(Deps.micronautBom))
     kaptTest("io.micronaut:micronaut-inject-java")
 
-    testImplementation(enforcedPlatform(Deps.micronautBom))
+    testImplementation(platform(Deps.micronautBom))
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
     // Enable native file watch only on dev mode.
-    devOnly(enforcedPlatform(Deps.micronautBom))
+    devOnly(platform(Deps.micronautBom))
     devOnly("io.micronaut:micronaut-runtime-osx")
     devOnly("net.java.dev.jna:jna")
     devOnly("io.methvin:directory-watcher")
@@ -238,7 +252,7 @@ publishing {
     publications {
         register<MavenPublication>("mavenJava") {
             from(components["java"])
-            // artifact(sourcesJar.get())
+            artifact(tasks.shadowJar.get())
 
             pom {
                 packaging = "jar"
