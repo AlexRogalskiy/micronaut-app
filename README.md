@@ -2,7 +2,7 @@
 
  * Build & Run
  ```bash        
- $ ./gradlew run --continuous
+ $ ./gradlew run --continuous --watch-fs
  ```
  * Run Tests
  ```bash

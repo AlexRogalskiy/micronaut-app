@@ -100,9 +100,7 @@ tasks {
                 "-progressive",
                 "-Xjsr305=strict",
                 "-Xjvm-default=enable",
-                "-Xassertions=jvm",
-                "-Xopt-in=kotlin.RequiresOptIn",
-                "-Xopt-in=kotlinx.serialization.ImplicitReflectionSerializer"
+                "-Xassertions=jvm"
             )
         }
     }
@@ -240,8 +238,6 @@ dependencies {
     // Enable native file watch only on dev mode.
     devOnly(platform(Deps.micronautBom))
     devOnly("io.micronaut:micronaut-runtime-osx")
-    devOnly("net.java.dev.jna:jna")
-    devOnly("io.methvin:directory-watcher")
 }
 
 publishing {
