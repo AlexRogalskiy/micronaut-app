@@ -83,6 +83,7 @@ object Versions {
 
     // Plugins
     const val gradle = "6.5"
+    const val micronautPlugin = "1.0.0.M4"
     const val ktlintPlugin = "9.2.1"
     const val dokka = "0.10.1"
     const val shadow = "6.0.0"
@@ -272,16 +273,13 @@ object Deps {
 /**
  * PluginId Extensions
  */
-
 inline val PluginDependenciesSpec.kotlinJvm get() = kotlin("jvm") version Versions.kotlin
 inline val PluginDependenciesSpec.kotlinxSerialization get() = kotlin("plugin.serialization") version Versions.kotlin
 inline val PluginDependenciesSpec.kotlinKapt get() = kotlin("kapt") version Versions.kotlin
 inline val PluginDependenciesSpec.kotlinSpring get() = kotlin("plugin.spring") version Versions.kotlin
 inline val PluginDependenciesSpec.kotlinAllOpen get() = kotlin("plugin.allopen") version Versions.kotlin
-// Kotlin Compiler Plugins
-//jib
-//protobuf
-
+inline val PluginDependenciesSpec.micronautApp get() = id("io.micronaut.application") version Versions.micronautPlugin
+inline val PluginDependenciesSpec.micronautLib get() = id("io.micronaut.library") version Versions.micronautPlugin
 inline val PluginDependenciesSpec.shadow get() = id("com.github.johnrengelman.shadow") version Versions.shadow
 inline val PluginDependenciesSpec.benmanesVersions get() = id("com.github.ben-manes.versions") version Versions.benmanesVersions
 inline val PluginDependenciesSpec.ktlint get() = id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintPlugin

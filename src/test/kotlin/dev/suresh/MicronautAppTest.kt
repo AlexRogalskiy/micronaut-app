@@ -1,9 +1,9 @@
 package dev.suresh
-import io.micronaut.runtime.EmbeddedApplication
-import io.micronaut.test.annotation.MicronautTest
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
-import javax.inject.Inject
+
+import io.micronaut.runtime.*
+import io.micronaut.test.annotation.*
+import org.junit.jupiter.api.*
+import javax.inject.*
 
 @MicronautTest
 class MicronautAppTest {
@@ -15,5 +15,4 @@ class MicronautAppTest {
     fun testItWorks() {
         Assertions.assertTrue(application.isRunning)
     }
-
 }

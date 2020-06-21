@@ -1,15 +1,12 @@
-import org.gradle.api.tasks.testing.logging.*
 import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
-    java
-    application
+    micronautApp
     kotlinJvm
     kotlinKapt
-    kotlinAllOpen
     kotlinxSerialization
-    googleJib
     shadow
+    googleJib
     benmanesVersions
     gitProperties
     `maven-publish`
@@ -32,6 +29,10 @@ java {
     targetCompatibility = jdkVersion
 }
 
+micronaut {
+    version(Versions.micronaut)
+}
+
 gitProperties {
     gitPropertiesDir = "${project.buildDir}/resources/main/META-INF/${project.name}"
     customProperties["kotlin"] = Versions.kotlin
@@ -47,30 +48,9 @@ jib {
     }
 }
 
-allOpen {
-    annotation("io.micronaut.aop.Around")
-}
-
-kapt {
-    arguments {
-        arg("micronaut.processing.incremental", true)
-        arg("micronaut.processing.annotations", "dev.suresh.*")
-        arg("micronaut.processing.group", "dev.suresh")
-        arg("micronaut.processing.module", "micronautApp")
-    }
-}
-
 repositories {
     mavenCentral()
     jcenter()
-}
-
-// For dependencies that are needed for development only,
-// creates a devOnly configuration and add it.
-val devOnly: Configuration by configurations.creating
-
-configurations {
-    devOnly
 }
 
 tasks {
@@ -79,15 +59,7 @@ tasks {
         options.apply {
             encoding = "UTF-8"
             isIncremental = true
-            compilerArgs.addAll(
-                listOf(
-                    "--enable-preview",
-                    "-Xlint:all",
-                    "-parameters",
-                    "--release",
-                    jdkVersion.majorVersion
-                )
-            )
+            compilerArgs.addAll(listOf("--release", jdkVersion.majorVersion))
         }
     }
 
@@ -108,71 +80,15 @@ tasks {
     // JUnit5
     test {
         useJUnitPlatform()
-        jvmArgs("--enable-preview")
-        classpath += devOnly
-        testLogging {
-            events = setOf(
-                TestLogEvent.PASSED,
-                TestLogEvent.FAILED,
-                TestLogEvent.SKIPPED
-            )
-            exceptionFormat = TestExceptionFormat.FULL
-            showExceptions = true
-            showCauses = true
-            showStackTraces = true
-        }
-        reports.html.isEnabled = true
+    }
+
+    shadowJar {
+        mergeServiceFiles()
     }
 
     // Release depends on publish.
     afterReleaseBuild {
         dependsOn(":publish")
-    }
-
-    // Configure Gradle Run.
-    named<JavaExec>("run") {
-        classpath += devOnly
-        jvmArgs = listOf(
-            "-XX:TieredStopAtLevel=1",
-            "-Dcom.sun.management.jmxremote"
-        )
-        if (gradle.startParameter.isContinuous) {
-            println("Enabling Micronaut Watch!")
-            systemProperties(
-                "micronaut.io.watch.restart" to "true",
-                "micronaut.io.watch.enabled" to "true",
-                "micronaut.io.watch.paths" to "src/main"
-            )
-        }
-    }
-
-    // Uber Jar
-    shadowJar {
-        mergeServiceFiles()
-    }
-
-    // Reproducible builds
-    withType<AbstractArchiveTask>().configureEach {
-        isPreserveFileTimestamps = false
-        isReproducibleFileOrder = true
-    }
-
-    // Sources jar (lazy)
-    val sourcesJar by registering(Jar::class) {
-        //kotlin.sourceSets.main.get().kotlin
-        from(sourceSets.main.get().allSource)
-        archiveClassifier.set("sources")
-    }
-
-    // Javadoc jar (lazy)
-    val javadocJar by registering(Jar::class) {
-        from(javadoc)
-        archiveClassifier.set("javadoc")
-    }
-
-    artifacts {
-        archives(sourcesJar)
-        archives(javadocJar)
     }
 
     // Disallow release candidates as upgradable versions from stable versions
@@ -195,49 +111,27 @@ tasks {
 }
 
 dependencies {
+    implementation(enforcedPlatform(Deps.kotlinBom))
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("reflect"))
+    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
+    implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
+    implementation("io.micronaut:micronaut-http-server-netty")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    implementation("io.micronaut.flyway:micronaut-flyway")
+    runtimeOnly("com.h2database:h2")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    compileOnly("org.graalvm.nativeimage:svm")
 
-    // Micronaut annotation processors
     kapt(platform(Deps.micronautBom))
-    kapt("io.micronaut:micronaut-inject-java")
-    kapt("io.micronaut:micronaut-validation")
     kapt("io.micronaut:micronaut-graal")
     kapt("io.micronaut.data:micronaut-data-processor")
 
-    compileOnly(platform(Deps.micronautBom))
-    compileOnly("org.graalvm.nativeimage:svm")
-
-    implementation(enforcedPlatform(Deps.kotlinBom))
-    implementation(platform(Deps.micronautBom))
-    implementation(kotlin("stdlib-jdk8"))
-    implementation(kotlin("reflect"))
-    implementation("io.micronaut:micronaut-inject")
-    implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
-    implementation("io.micronaut:micronaut-runtime")
-    implementation("javax.annotation:javax.annotation-api")
-    implementation("io.micronaut:micronaut-http-server-netty")
-    implementation("io.micronaut:micronaut-http-client")
-    implementation("io.micronaut.flyway:micronaut-flyway")
-    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
-    implementation("io.micronaut.data:micronaut-data-jdbc")
-    implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
-
-    runtimeOnly("ch.qos.logback:logback-classic")
-    runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
-    runtimeOnly("com.h2database:h2")
-
-
-    kaptTest(platform(Deps.micronautBom))
     kaptTest("io.micronaut:micronaut-inject-java")
-
-    testImplementation(platform(Deps.micronautBom))
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-
-    // Enable native file watch only on dev mode.
-    devOnly(platform(Deps.micronautBom))
-    devOnly("io.micronaut:micronaut-runtime-osx")
 }
 
 publishing {

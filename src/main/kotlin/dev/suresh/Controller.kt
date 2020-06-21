@@ -7,21 +7,20 @@ import org.slf4j.*
 @Controller
 class Controller {
 
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @Get("/abc")
+    @Get("/1")
     fun test(): String {
         logger.info("OK..Kotlin")
-        return "Hello Kotlin"
+        return "Hello Kotlin!"
     }
 
-    @Get("/abc2")
+    @Get("/2")
     fun test2() {
 
     }
 
-    @Get("/abc1")
+    @Get("/3")
     fun test1() {
 
     }
