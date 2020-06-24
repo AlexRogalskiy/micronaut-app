@@ -124,7 +124,7 @@ dependencies {
     implementation("io.micronaut.flyway:micronaut-flyway")
     runtimeOnly("ch.qos.logback:logback-classic")
     compileOnly("org.graalvm.nativeimage:svm")
-    // runtimeOnly("com.h2database:h2")
+    runtimeOnly("com.h2database:h2")
 
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
