@@ -1,9 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
-    micronautApp
     kotlinJvm
     kotlinKapt
+    micronautApp
     kotlinxSerialization
     shadow
     googleJib
@@ -18,7 +18,7 @@ group = "dev.suresh"
 description = "Micronaut data sample app!"
 
 val gitUrl: String by project
-val jdkVersion = JavaVersion.toVersion(14)
+val jdkVersion = JavaVersion.toVersion(11)
 
 application {
     mainClassName = "dev.suresh.ApplicationKt"
@@ -31,6 +31,9 @@ java {
 
 micronaut {
     version(Versions.micronaut)
+    processing {
+        incremental.set(true)
+    }
 }
 
 gitProperties {
@@ -50,7 +53,6 @@ jib {
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 tasks {
@@ -66,7 +68,7 @@ tasks {
     withType<KotlinCompile>().configureEach {
         kotlinOptions {
             verbose = true
-            jvmTarget = "13"
+            jvmTarget = jdkVersion.majorVersion
             javaParameters = true
             freeCompilerArgs += listOf(
                 "-progressive",
@@ -111,7 +113,6 @@ tasks {
 }
 
 dependencies {
-    implementation(enforcedPlatform(Deps.kotlinBom))
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
@@ -121,15 +122,10 @@ dependencies {
     implementation("io.micronaut.data:micronaut-data-jdbc")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.flyway:micronaut-flyway")
-    runtimeOnly("com.h2database:h2")
     runtimeOnly("ch.qos.logback:logback-classic")
     compileOnly("org.graalvm.nativeimage:svm")
+    // runtimeOnly("com.h2database:h2")
 
-    kapt(platform(Deps.micronautBom))
-    kapt("io.micronaut:micronaut-graal")
-    kapt("io.micronaut.data:micronaut-data-processor")
-
-    kaptTest("io.micronaut:micronaut-inject-java")
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }

@@ -9,7 +9,7 @@ object Versions {
     const val kotlinxReflectLite = "1.0.0"
     const val kotlinImmutableColl = "0.1"
     const val kotlinIO = "0.1.4"
-    const val micronaut = "2.0.0.RC1"
+    const val micronaut = "2.0.0.RC2"
     const val jsr305 = "3.0.2"
     const val clikt = "2.7.0"
     const val colormath = "1.4.0"
@@ -83,7 +83,7 @@ object Versions {
 
     // Plugins
     const val gradle = "6.5"
-    const val micronautPlugin = "1.0.0.M4"
+    const val micronautPlugin = "1.0.0.M6"
     const val ktlintPlugin = "9.2.1"
     const val dokka = "0.10.1"
     const val shadow = "6.0.0"

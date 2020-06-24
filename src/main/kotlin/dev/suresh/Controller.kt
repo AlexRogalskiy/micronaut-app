@@ -12,7 +12,7 @@ class Controller {
     @Get("/1")
     fun test(): String {
         logger.info("OK..Kotlin")
-        return "Hello Kotlin!"
+        return "Hello Kotlin"
     }
 
     @Get("/2")
