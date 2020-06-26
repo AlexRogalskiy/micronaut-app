@@ -83,7 +83,7 @@ object Versions {
 
     // Plugins
     const val gradle = "6.5"
-    const val micronautPlugin = "1.0.0.M6"
+    const val micronautPlugin = "1.0.0.M7"
     const val ktlintPlugin = "9.2.1"
     const val dokka = "0.10.1"
     const val shadow = "6.0.0"

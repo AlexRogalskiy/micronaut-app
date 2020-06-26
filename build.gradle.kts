@@ -79,11 +79,6 @@ tasks {
         }
     }
 
-    // JUnit5
-    test {
-        useJUnitPlatform()
-    }
-
     shadowJar {
         mergeServiceFiles()
     }
@@ -117,6 +112,7 @@ dependencies {
     implementation(kotlin("reflect"))
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
+
     implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut.data:micronaut-data-jdbc")
