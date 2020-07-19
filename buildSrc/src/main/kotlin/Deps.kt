@@ -82,8 +82,8 @@ object Versions {
     const val openapiGen = "4.3.1"
 
     // Plugins
-    const val gradle = "6.5.1"
-    const val micronautPlugin = "1.0.0.M7"
+    const val gradle = "6.6-rc-1"
+    const val micronautPlugin = "1.0.0.M9"
     const val ktlintPlugin = "9.2.1"
     const val dokka = "0.10.1"
     const val shadow = "6.0.0"
@@ -94,7 +94,7 @@ object Versions {
     const val springDepMgmt = "1.0.9.RELEASE"
     const val buildSrcVersions = "0.3.2"
     const val googleJavaFormat = "0.8"
-    const val benmanesVersions = "0.28.0"
+    const val benmanesVersions = "0.29.0"
     const val buildScanPlugin = "2.0.2"
     const val gitPublishPlugin = "1.0.1"
     const val swaggerGen = "2.16.0"

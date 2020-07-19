@@ -18,15 +18,14 @@ group = "dev.suresh"
 description = "Micronaut data sample app!"
 
 val gitUrl: String by project
-val jdkVersion = JavaVersion.toVersion(11)
+val javaVersion = 11
 
 application {
     mainClassName = "dev.suresh.ApplicationKt"
 }
 
 java {
-    sourceCompatibility = jdkVersion
-    targetCompatibility = jdkVersion
+    modularity.inferModulePath.set(false)
 }
 
 micronaut {
@@ -61,14 +60,14 @@ tasks {
         options.apply {
             encoding = "UTF-8"
             isIncremental = true
-            compilerArgs.addAll(listOf("--release", jdkVersion.majorVersion))
+            release.set(javaVersion)
         }
     }
 
     withType<KotlinCompile>().configureEach {
         kotlinOptions {
             verbose = true
-            jvmTarget = jdkVersion.majorVersion
+            jvmTarget = javaVersion.toString()
             javaParameters = true
             freeCompilerArgs += listOf(
                 "-progressive",
