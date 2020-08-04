@@ -82,7 +82,7 @@ object Versions {
     const val openapiGen = "4.3.1"
 
     // Plugins
-    const val gradle = "6.6-rc-1"
+    const val gradle = "6.6-rc-5"
     const val micronautPlugin = "1.0.0.M9"
     const val ktlintPlugin = "9.2.1"
     const val dokka = "0.10.1"
@@ -98,7 +98,7 @@ object Versions {
     const val buildScanPlugin = "2.0.2"
     const val gitPublishPlugin = "1.0.1"
     const val swaggerGen = "2.16.0"
-    const val gitProperties = "2.2.2"
+    const val gitProperties = "2.2.3"
     const val githubRelease = "2.2.12"
     const val gradleRelease = "2.8.1"
     const val mavenPublishAuth = "2.0.2"
