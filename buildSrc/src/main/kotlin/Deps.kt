@@ -82,7 +82,7 @@ object Versions {
     const val openapiGen = "4.3.1"
 
     // Plugins
-    const val gradle = "6.6-rc-5"
+    const val gradle = "6.6"
     const val micronautPlugin = "1.0.0.M9"
     const val ktlintPlugin = "9.2.1"
     const val dokka = "0.10.1"
