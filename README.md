@@ -42,6 +42,3 @@
 [gha_url]: https://github.com/sureshg/micronaut-app/actions
 [gha_img]: https://github.com/sureshg/micronaut-app/workflows/Gradle%20Build/badge.svg?branch=master                         
 [shieldio_img]: https://img.shields.io/github/workflow/status/sureshg/micronaut-app/Gradle%20Build?color=green&label=Build&logo=Github-Actions&logoColor=green&style=for-the-badge
-
-
-
