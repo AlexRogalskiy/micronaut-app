@@ -52,6 +52,7 @@ jib {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 tasks {
