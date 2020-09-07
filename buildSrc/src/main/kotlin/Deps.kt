@@ -101,7 +101,7 @@ object Versions {
     const val gitProperties = "2.2.3"
     const val githubRelease = "2.2.12"
     const val gradleRelease = "2.8.1"
-    const val mavenPublishAuth = "2.0.2"
+    const val mavenPublishAuth = "3.0.3"
     const val javafxPlugin = "0.0.7"
     const val jmhPlugin = "0.4.8"
     const val mrjar = "0.0.16"
@@ -288,7 +288,7 @@ inline val PluginDependenciesSpec.dokka get() = id("org.jetbrains.dokka") versio
 inline val PluginDependenciesSpec.googleJavaFormat get() = id("com.github.sherter.google-java-format") version Versions.googleJavaFormat
 inline val PluginDependenciesSpec.githubRelease get() = id("com.github.breadmoirai.github-release") version Versions.githubRelease
 inline val PluginDependenciesSpec.gradleRelease get() = id("net.researchgate.release") version Versions.gradleRelease
-inline val PluginDependenciesSpec.mavenPublishAuth get() = id("org.datlowe.maven-publish-auth") version Versions.mavenPublishAuth
+inline val PluginDependenciesSpec.mavenPublishAuth get() = id("org.hibernate.build.maven-repo-auth") version Versions.mavenPublishAuth
 inline val PluginDependenciesSpec.javafx get() = id("org.openjfx.javafxplugin") version Versions.javafxPlugin
 inline val PluginDependenciesSpec.jmh get() = id("me.champeau.gradle.jmh") version Versions.jmhPlugin
 inline val PluginDependenciesSpec.mrjar get() = id("com.lingocoder.mrjar") version Versions.mrjar
