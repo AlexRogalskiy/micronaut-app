@@ -22,7 +22,7 @@
 
  * Build Native Image
      ```bash
-      $ sdk u java 20.1.0.r11-grl
+      $ sdk u java 20.2.0.r11-grl
       $ ./gradlew nativeImage 
      ```
    

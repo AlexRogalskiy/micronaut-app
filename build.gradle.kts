@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.*
 plugins {
     kotlinJvm
     kotlinKapt
+    kotlinAllOpen
     micronautApp
     kotlinxSerialization
     shadow
@@ -119,7 +120,13 @@ dependencies {
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.flyway:micronaut-flyway")
     runtimeOnly("ch.qos.logback:logback-classic")
-    compileOnly("org.graalvm.nativeimage:svm")
+    compileOnly("org.graalvm.nativeimage:svm") {
+        // Fix for https://youtrack.jetbrains.com/issue/KT-41313
+        exclude("org.graalvm.nativeimage")
+        exclude("org.graalvm.truffle")
+        exclude("org.graalvm.sdk")
+        exclude("org.graalvm.compiler")
+    }
     runtimeOnly("com.h2database:h2")
 
     testImplementation("io.micronaut.test:micronaut-test-junit5")
