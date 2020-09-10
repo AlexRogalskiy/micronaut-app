@@ -3,7 +3,7 @@ import org.gradle.plugin.use.*
 
 object Versions {
     // Deps
-    const val kotlin = "1.4.0"
+    const val kotlin = "1.4.10"
     const val coroutines = "1.3.7"
     const val kotlinSerialization = "0.20.0"
     const val kotlinxReflectLite = "1.0.0"
@@ -83,7 +83,7 @@ object Versions {
 
     // Plugins
     const val gradle = "6.6.1"
-    const val micronautPlugin = "1.0.0.RC10"
+    const val micronautPlugin = "1.0.0.RC11"
     const val ktlintPlugin = "9.2.1"
     const val dokka = "0.10.1"
     const val shadow = "6.0.0"
@@ -94,14 +94,14 @@ object Versions {
     const val springDepMgmt = "1.0.9.RELEASE"
     const val buildSrcVersions = "0.3.2"
     const val googleJavaFormat = "0.8"
-    const val benmanesVersions = "0.30.0"
+    const val benmanesVersions = "0.31.0"
     const val buildScanPlugin = "2.0.2"
     const val gitPublishPlugin = "1.0.1"
     const val swaggerGen = "2.16.0"
     const val gitProperties = "2.2.3"
     const val githubRelease = "2.2.12"
     const val gradleRelease = "2.8.1"
-    const val mavenPublishAuth = "3.0.3"
+    const val mavenRepoAuth = "3.0.3"
     const val javafxPlugin = "0.0.7"
     const val jmhPlugin = "0.4.8"
     const val mrjar = "0.0.16"
@@ -288,7 +288,7 @@ inline val PluginDependenciesSpec.dokka get() = id("org.jetbrains.dokka") versio
 inline val PluginDependenciesSpec.googleJavaFormat get() = id("com.github.sherter.google-java-format") version Versions.googleJavaFormat
 inline val PluginDependenciesSpec.githubRelease get() = id("com.github.breadmoirai.github-release") version Versions.githubRelease
 inline val PluginDependenciesSpec.gradleRelease get() = id("net.researchgate.release") version Versions.gradleRelease
-inline val PluginDependenciesSpec.mavenPublishAuth get() = id("org.hibernate.build.maven-repo-auth") version Versions.mavenPublishAuth
+inline val PluginDependenciesSpec.mavenRepoAuth get() = id("org.hibernate.build.maven-repo-auth") version Versions.mavenRepoAuth
 inline val PluginDependenciesSpec.javafx get() = id("org.openjfx.javafxplugin") version Versions.javafxPlugin
 inline val PluginDependenciesSpec.jmh get() = id("me.champeau.gradle.jmh") version Versions.jmhPlugin
 inline val PluginDependenciesSpec.mrjar get() = id("com.lingocoder.mrjar") version Versions.mrjar

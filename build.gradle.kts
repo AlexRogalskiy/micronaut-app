@@ -11,7 +11,7 @@ plugins {
     benmanesVersions
     gitProperties
     `maven-publish`
-    mavenPublishAuth
+    mavenRepoAuth
     gradleRelease
 }
 
@@ -31,6 +31,7 @@ java {
 
 micronaut {
     version(Versions.micronaut)
+    runtime("jetty")
     processing {
         incremental.set(true)
     }
@@ -71,11 +72,14 @@ tasks {
             verbose = true
             jvmTarget = javaVersion.toString()
             javaParameters = true
+            incremental = true
+            useIR = true
             freeCompilerArgs += listOf(
                 "-progressive",
                 "-Xjsr305=strict",
                 "-Xjvm-default=enable",
-                "-Xassertions=jvm"
+                "-Xassertions=jvm",
+                "-XXLanguage:+NewInference"
             )
         }
     }
@@ -114,20 +118,14 @@ dependencies {
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("io.micronaut.kotlin:micronaut-kotlin-extension-functions")
 
-    implementation("io.micronaut:micronaut-http-server-netty")
+    // implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut.data:micronaut-data-jdbc")
     implementation("io.micronaut.sql:micronaut-jdbc-hikari")
     implementation("io.micronaut.flyway:micronaut-flyway")
     runtimeOnly("ch.qos.logback:logback-classic")
-    compileOnly("org.graalvm.nativeimage:svm") {
-        // Fix for https://youtrack.jetbrains.com/issue/KT-41313
-        exclude("org.graalvm.nativeimage")
-        exclude("org.graalvm.truffle")
-        exclude("org.graalvm.sdk")
-        exclude("org.graalvm.compiler")
-    }
     runtimeOnly("com.h2database:h2")
+    compileOnly("org.graalvm.nativeimage:svm")
 
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
